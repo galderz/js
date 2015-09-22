@@ -1,0 +1,144 @@
+<p>And if you go chasing
+<span class="animal">rabbits</span></p>
+<p>And you know you're going to fall</p>
+<p>Tell 'em a <span class="character">hookah smoking
+  <span class="animal">caterpillar</span></span></p>
+<p>Has given you the call</p>
+
+<p id="para" style="color: purple">
+Pretty text
+</p>
+
+<p style="border: 3px solid red">
+I'm boxed in
+</p>
+
+<p>Here it is, the identity function:</p>
+<pre data-language="javascript">
+function id(x) { return x; }
+</pre>
+
+<p>One</p>
+<p>Two</p>
+<p>Three</p>
+
+<p>My ostrich Gertrude:</p>
+<p><img id="gertrude" src="img/ostrich.png"></p>
+
+<p>The <img src="img/cat.png" alt="Cat"> in the
+<img src="img/hat.png" alt="Hat">.</p>
+
+<p>
+<button onclick="replaceImages()">Replace</button>
+</p>
+
+<blockquote id="quote">
+No book can ever be finished. While working on it we learn
+just enough to find it immature the moment we turn away
+from it.
+</blockquote>
+
+<p data-classified="secret">The launch code is 00000000.</p>
+<p data-classified="unclassified">I have two feet.</p>
+
+<script>
+var paragraphs = document.body.getElementsByTagName("p");
+document.body.insertBefore(paragraphs[2], paragraphs[0]);
+
+var ostrich = document.getElementById("gertrude");
+console.log(ostrich.src);
+
+function replaceImages() {
+  var images = document.body.getElementsByTagName("img");
+  // Starts from end since getElementsByTagName gets you a live collection
+  // To get a solid collection, you can call array slice, e.g.
+  // var arrayish = {0: "one", 1: "two", length: 2};
+  // var real = Array.prototype.slice.call(arrayish, 0);
+  // ....
+  for (var i = images.length - 1; i >= 0; i--) {
+    var image = images[i];
+    if (image.alt) {
+      var text = document.createTextNode(image.alt);
+      image.parentNode.replaceChild(text, image);
+    }
+  }
+}
+
+function elt(type) {
+  var node = document.createElement(type);
+  for (var i = 1; i < arguments.length; i++) {
+    var child = arguments[i];
+    if (typeof child == "string")
+      child = document.createTextNode(child);
+      node.appendChild(child);
+  }
+  return node;
+}
+
+document.getElementById("quote").appendChild(
+        elt("footer", "—",
+            elt("strong", "Karl Popper"),
+            ", preface to the second editon of ",
+            elt("em", "The Open Society and Its Enemies"),
+            ", 1950"));
+
+var paras = document.body.getElementsByTagName("p");
+Array.prototype.forEach.call(paras, function(para) {
+  if (para.getAttribute("data-classified") == "secret")
+    para.parentNode.removeChild(para);
+});
+
+function highlightCode(node, keywords) {
+  var text = node.textContent;
+  node.textContent = ""; // Clear the node
+
+  var match, pos = 0;
+  while (match = keywords.exec(text)) {
+    var before = text.slice(pos, match.index);
+    node.appendChild(document.createTextNode(before));
+    var strong = document.createElement("strong");
+    strong.appendChild(document.createTextNode(match[0]));
+    node.appendChild(strong);
+    pos = keywords.lastIndex;
+  }
+  var after = text.slice(pos);
+  node.appendChild(document.createTextNode(after));
+}
+
+var languages = {
+  javascript: /\b(function|return|var)\b/g /* … etc */
+};
+
+function highlightAllCode() {
+  var pres = document.body.getElementsByTagName("pre");
+  for (var i = 0; i < pres.length; i++) {
+    var pre = pres[i];
+    var lang = pre.getAttribute("data-language");
+    if (languages.hasOwnProperty(lang))
+      highlightCode(pre, languages[lang]);
+  }
+}
+
+highlightAllCode();
+
+var para = document.body.getElementsByTagName("p")[0];
+console.log("clientHeight:", para.clientHeight);
+console.log("offsetHeight:", para.offsetHeight);
+
+var para = document.getElementById("para");
+console.log(para.style.color);
+para.style.color = "magenta";
+
+function count(selector) {
+  // querySelectorAll is not live
+  return document.querySelectorAll(selector).length;
+}
+console.log(count("p"));           // All <p> elements
+// → 4
+console.log(count(".animal"));     // Class animal
+// → 2
+console.log(count("p .animal"));   // Animal inside of <p>
+// → 2
+console.log(count("p > .animal")); // Direct child of <p>
+// → 1
+</script>

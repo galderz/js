@@ -1,0 +1,190 @@
+<p>Click this document to activate the handler.</p>
+
+<button>Click me</button>
+<p>No handler here.</p>
+
+<button>Act-once button</button>
+
+<p>A paragraph with a <button>button</button>.</p>
+
+<button>A</button>
+<button>B</button>
+<button>C</button>
+
+<a href="https://developer.mozilla.org/">MDN</a>
+
+<p>This page turns violet when you hold the V key.</p>
+
+<p>Press Ctrl-Space to continue.</p>
+
+<p>Focus this page and type something.</p>
+
+<style>
+body {
+height: 200px;
+background: beige;
+}
+.dot {
+height: 8px; width: 8px;
+border-radius: 4px; /* rounds corners */
+background: blue;
+position: absolute;
+}
+</style>
+
+<p>Drag the bar to change its width:</p>
+<div style="background: orange; width: 60px; height: 20px">
+</div>
+
+<p>Name: <input type="text" data-help="Your full name"></p>
+<p>Age: <input type="text" data-help="Age in years"></p>
+<p id="help"></p>
+
+<textarea>Type something here...</textarea>
+
+<script>
+document.body.addEventListener("click", function(event) {
+  if (event.target.nodeName == "BUTTON")
+  console.log("Clicked", event.target.textContent);
+});
+
+var link = document.querySelector("a");
+link.addEventListener("click", function(event) {
+console.log("Nope.");
+event.preventDefault();
+});
+
+addEventListener("keydown", function(event) {
+  if (event.keyCode == 86)
+    document.body.style.background = "violet";
+});
+addEventListener("keyup", function(event) {
+  if (event.keyCode == 86)
+    document.body.style.background = "";
+});
+
+addEventListener("keydown", function(event) {
+  if (event.keyCode == 32 && event.ctrlKey)
+    console.log("Continuing!");
+});
+
+addEventListener("keypress", function(event) {
+  console.log(String.fromCharCode(event.charCode));
+});
+
+addEventListener("click", function(event) {
+  var dot = document.createElement("div");
+  dot.className = "dot";
+  dot.style.left = (event.pageX - 4) + "px";
+  dot.style.top = (event.pageY - 4) + "px";
+  document.body.appendChild(dot);
+});
+
+var lastX; // Tracks the last observed mouse X position
+var rect = document.querySelector("div");
+rect.addEventListener("mousedown", function(event) {
+  if (event.which == 1) {
+    lastX = event.pageX;
+  addEventListener("mousemove", moved);
+  event.preventDefault(); // Prevent selection
+  }
+});
+function buttonPressed(event) {
+  if (event.buttons == null)
+    return event.which != 0;
+  else
+  return event.buttons != 0;
+}
+function moved(event) {
+  if (!buttonPressed(event)) {
+    removeEventListener("mousemove", moved);
+  } else {
+    var dist = event.pageX - lastX;
+    var newWidth = Math.max(10, rect.offsetWidth + dist);
+    rect.style.width = newWidth + "px";
+    lastX = event.pageX;
+  }
+}
+
+var help = document.querySelector("#help");
+var fields = document.querySelectorAll("input");
+for (var i = 0; i < fields.length; i++) {
+  fields[i].addEventListener("focus", function(event) {
+  var text = event.target.getAttribute("data-help");
+  help.textContent = text;
+  });
+  fields[i].addEventListener("blur", function(event) {
+    help.textContent = "";
+  });
+}
+
+// Javascript is single threaded, async communication is achieved with workers
+var squareWorker = new Worker("squareworker.js");
+squareWorker.addEventListener("message", function(event) {
+  console.log("The worker responded:", event.data);
+});
+squareWorker.postMessage(10);
+squareWorker.postMessage(24);
+
+document.body.style.background = "blue";
+setTimeout(function() {
+  document.body.style.background = "yellow";
+}, 2000);
+
+var bombTimer = setTimeout(function() {
+  console.log("BOOM!");
+}, 500);
+
+if (Math.random() < 0.5) { // 50% chance
+  console.log("Defused.");
+  clearTimeout(bombTimer);
+}
+
+var textarea = document.querySelector("textarea");
+var timeout;
+textarea.addEventListener("keydown", function() {
+  clearTimeout(timeout);
+  timeout = setTimeout(function() {
+    console.log("You stopped typing.");
+  }, 500);
+});
+
+//addEventListener("click", function() {
+//console.log("You clicked!");
+//});
+
+//var button = document.querySelector("button");
+//button.addEventListener("click", function() {
+//console.log("Button clicked.");
+//});
+
+//var button2 = document.querySelector("button");
+//function once() {
+//  console.log("Done.");
+//  button2.removeEventListener("click", once);
+//}
+//button2.addEventListener("click", once);
+
+//var button3 = document.querySelector("button");
+//button3.addEventListener("mousedown", function(event) {
+//  if (event.which == 1)
+//    console.log("Left button");
+//  else if (event.which == 2)
+//    console.log("Middle button");
+//  else if (event.which == 3)
+//    console.log("Right button");
+//});
+
+//var para = document.querySelector("p");
+//var button4 = document.querySelector("button");
+//  para.addEventListener("mousedown", function() {
+//  console.log("Handler for paragraph.");
+//});
+//button4.addEventListener("mousedown", function(event) {
+//  console.log("Handler for button.");
+//  if (event.which == 3)
+//  event.stopPropagation();
+//});
+
+
+</script>

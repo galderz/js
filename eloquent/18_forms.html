@@ -1,0 +1,155 @@
+<input type="file">
+
+<select multiple>
+<option value="1">0001</option>
+<option value="2">0010</option>
+<option value="4">0100</option>
+<option value="8">1000</option>
+</select> = <span id="outputNum">0</span>
+
+<br/><br/>
+Color:
+<input type="radio" name="color" value="mediumpurple"> Purple
+<input type="radio" name="color" value="lightgreen"> Green
+<input type="radio" name="color" value="lightblue"> Blue
+
+<input type="checkbox" id="purple">
+<label for="purple">Make this page purple</label>
+
+<input type="text"> length: <span id="length">0</span>
+
+<form action="example/submit.html">
+Value: <input type="text" name="value">
+<button type="submit">Save</button>
+</form>
+
+<!--<form action="submit.html">-->
+<!--Name: <input type="text" name="name"><br>-->
+<!--Password: <input type="password" name="password"><br>-->
+<!--<button type="submit">Log in</button>-->
+<!--</form>-->
+
+<input type="text" tabindex=1 autofocus> <a href=".">(help)</a>
+<button onclick="console.log('ok')" tabindex=2>OK</button>
+
+<button>I'm all right</button>
+<button disabled>I'm out</button>
+
+<p><input type="text" value="abc"> (text)</p>
+<p><input type="password" value="abc"> (password)</p>
+<p><input type="checkbox" checked> (checkbox)</p>
+<p><input type="radio" value="A" name="choice">
+<input type="radio" value="B" name="choice" checked>
+<input type="radio" value="C" name="choice"> (radio)</p>
+<p><input type="file"> (file)</p>
+
+<textarea>
+one
+two
+three
+</textarea>
+
+<select>
+<option>Pancakes</option>
+<option>Pudding</option>
+<option>Ice cream</option>
+</select>
+
+<script>
+// Store data so that it survives page reload
+localStorage.setItem("username", "marijn");
+console.log(localStorage.getItem("username"));
+// → marijn
+localStorage.removeItem("username");
+
+var input = document.querySelector("input");
+input.addEventListener("change", function() {
+  if (input.files.length > 0) {
+    var file = input.files[0];
+    console.log("You chose", file.name);
+    if (file.type)
+      console.log("It has type", file.type);
+  }
+});
+
+input.addEventListener("change", function() {
+  // The example uses Array.prototype.forEach to iterate over the array
+  // since in a normal loop it would be awkward to get the correct file
+  // and reader objects from the event handler. The variables would be
+  // shared by all iterations of the loop.
+  Array.prototype.forEach.call(input.files, function(file) {
+    var reader = new FileReader();
+    reader.addEventListener("load", function() {
+      console.log("File", file.name, "starts with",
+            reader.result.slice(0, 20));
+    });
+    reader.readAsText(file);
+  });
+});
+
+// Read file using a promise and dealing with errors
+function readFile(file) {
+  return new Promise(function(succeed, fail) {
+    var reader = new FileReader();
+    reader.addEventListener("load", function() {
+      succeed(reader.result);
+    });
+    reader.addEventListener("error", function() {
+      fail(reader.error);
+    });
+    reader.readAsText(file);
+  });
+}
+
+var select = document.querySelector("select");
+var outputNum = document.querySelector("#outputNum");
+select.addEventListener("change", function() {
+  var number = 0;
+  for (var i = 0; i < select.options.length; i++) {
+    var option = select.options[i];
+    console.log(option.selected);
+    if (option.selected)
+      number += Number(option.value);
+  }
+  outputNum.textContent = number;
+});
+
+
+var buttons = document.getElementsByName("color");
+function setColor(event) {
+  document.body.style.background = event.target.value;
+}
+for (var i = 0; i < buttons.length; i++)
+buttons[i].addEventListener("change", setColor);
+
+var checkbox = document.querySelector("#purple");
+checkbox.addEventListener("change", function() {
+  document.body.style.background =
+        checkbox.checked ? "mediumpurple" : "";
+});
+
+var text = document.querySelector("input");
+var output = document.querySelector("#length");
+text.addEventListener("input", function() {
+  output.textContent = text.value.length;
+});
+
+var form = document.querySelector("form");
+console.log(form.elements[1].type);
+// → password
+console.log(form.elements.password.type);
+// → password
+console.log(form.elements.name.form == form);
+// → true
+form.addEventListener("submit", function(event) {
+  console.log("Saving value", form.elements.value.value);
+  event.preventDefault();
+});
+
+//document.querySelector("input").focus();
+//console.log(document.activeElement.tagName);
+//// → INPUT
+//document.querySelector("input").blur();
+//console.log(document.activeElement.tagName);
+//// → BODY
+</script>
