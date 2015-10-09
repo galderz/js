@@ -147,7 +147,7 @@ function invoker (NAME, METHOD) {
       return targetMethod.apply(target, args);
     });
   };
-};
+}
 
 var rev = invoker('reverse', Array.prototype.reverse);
 
