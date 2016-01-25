@@ -439,6 +439,7 @@ function merge(/*args*/) {
 var person = {fname: "Simon"};
 
 console.log(merge(person, {lname: "Petrikov"}, {age: 28}, {age: 108}));
+//console.log(merge(person, {lname: "Petrikov"}, {age: undefined}));
 //=> {age: 108, fname: "Simon", lname: "Petrikov"}
 
 console.log(person);

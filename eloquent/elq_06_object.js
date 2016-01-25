@@ -337,3 +337,42 @@ console.log(new TextCell("A") instanceof RTextCell);
 // → false
 console.log([1] instanceof Array);
 // → true
+
+var MyObj = function() {
+
+  function b(k, v) {
+    console.log("K: " + k);
+    console.log("V: " + v);
+  }
+
+  return {
+    a: function(k, v) {
+      b(k, v);
+    }
+  }
+};
+
+var MyObj2 = {
+
+  //function b(k, v) {
+  //  console.log("K: " + k);
+  //  console.log("V: " + v);
+  //}
+
+  a: function(k, v) {
+    console.log("K: " + k);
+    console.log("V: " + v);
+    //b(k, v);
+  }
+};
+
+
+var x = new MyObj();
+x.a(1, 2);
+//x.b(1, 2);
+x.a.apply(null, [1, 2]);
+//MyObj.a.apply(x, [1, 2]);
+
+//var x = new MyObj2();
+//x.a(1, 2);
+//MyObj2.a.apply(null, [1, 2]);

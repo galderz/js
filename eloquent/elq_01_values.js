@@ -75,3 +75,53 @@ console.log(null || "user");
 console.log("Karl" || "user");
 // → Karl
 
+console.log(2 ^ 7);
+
+console.log(0x00 & 0x80);
+console.log(0x01 & 0x80);
+console.log(0x02 & 0x80);
+console.log(0x80 & 0x80);
+console.log(0x81 & 0x80);
+console.log(0x82 & 0x80);
+console.log(0x83 & 0x80);
+
+console.log(undefined == null);
+console.log(0x0C == 12);
+console.log(0x0C === 12);
+
+console.log(Math.ceil(49 / 7));
+console.log(Math.ceil(53 / 7));
+
+console.log(0x60 | 0x07);
+
+console.log(0x60 >> 4);
+console.log(0x06 << 4);
+
+var x = 1;
+var y = x;
+console.log(x);
+console.log(y);
+console.log(y++);
+console.log(y);
+console.log(x);
+
+console.log(Buffer.byteLength("one"));
+//console.log(Buffer.byteLength(undefined));
+
+//console.log(0x60 & 0x9F); // 0110000 -> 1001111
+//console.log(0x61 & 0x9F);
+
+console.log((0x60 >> 4) & 0x06);
+console.log((0x61 >> 4) & 0x06);
+console.log((0x62 >> 4) & 0x06);
+console.log((0x63 >> 4) & 0x06);
+console.log((0x02 >> 4) & 0x06);
+console.log((0x50 >> 4) & 0x06);
+
+//console.log(0x60 & 0x90);
+//console.log(0x61 & 0x90);
+//console.log(0x62 & 0x90);
+//console.log(0x63 & 0x90);
+//console.log(0x64 & 0x90);
+//console.log(0x02 & 0x90);
+//console.log(0x50 & 0x90);

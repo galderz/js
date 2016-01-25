@@ -84,3 +84,5 @@ switch (weather) {
     console.log("Unknown weather type!");
     break;
 }
+
+console.log(7 / 7);

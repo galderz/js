@@ -301,3 +301,56 @@ console.log([null, undefined, 1, 2, false].map(existy));
 //=> [false, false, true, true, true]
 console.log([null, undefined, 1, 2, false].map(truthy));
 //=> [false, false, true, true, false]
+
+var duration = /(-?\d*\.?\d+(?:e[-+]?\d+)?)\s*([a-zμ]*)/ig
+console.log("5m".match(duration))
+console.log("555m".replace(duration, function(_, n, units) {
+  console.log("Unit is: " + units);
+  return n;
+}));
+
+console.log("1s".search(duration));
+
+console.log(duration.exec('1s')[2]);
+console.log(duration.exec('1m'));
+
+function getPieces(str) {
+  var pieces = [];
+  var re = /(\d+)[\s,]*([a-zA-Z]+)/g, matches;
+  while (matches = re.exec(str)) {
+    pieces.push(+matches[1]);
+    pieces.push(matches[2]);
+  }
+  return(pieces);
+}
+
+function getPieces2(str) {
+  var re = /(\d+)[\s,]*([a-zμ]+)/g;
+  var matches = re.exec(str);
+  if (existy(matches)) return [matches[1], matches[2]];
+  else {
+    var num = parseInt(str);
+    if (_.isNaN(num))
+      throw new Error('`' + str + '` not a valid duration');
+    else if (num > 0)
+      throw new Error('Positive durations must be specified with time unit');
+
+    return num;
+  }
+}
+
+console.log(getPieces2('1ns'));
+console.log(getPieces2('22μs'));
+console.log(getPieces2('333ms'));
+console.log(getPieces2('4444s'));
+console.log(getPieces2('55555m'));
+console.log(getPieces2('666666d'));
+
+//console.log(getPieces2('1'));
+console.log(getPieces2('0'));
+console.log(getPieces2('-1'));
+
+console.log(0 << 4 | 0);
+console.log(1 << 4 | 0); // 00010000 (ms/s)
+console.log(1 << 4 | 1); // 00010001 (ms/ms)
+console.log(8 << 4 | 4); // 10000100 (ms/ms)

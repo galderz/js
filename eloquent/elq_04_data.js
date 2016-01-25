@@ -249,3 +249,12 @@ console.log(Math.random());
 
 // To produce a random number instead of fractional, rounding down
 console.log(Math.floor(Math.random() * 10));
+
+x = function() {
+  console.log("xxx");
+}
+
+var map2 = {};
+map2[1] = x;
+console.log(map2[1]);
+map2[1]();

@@ -340,3 +340,24 @@ console.log(checkCommand(32));
 //=> ["must be a map", "Must have values for keys: msg type"]
 console.log(checkCommand({}));
 //=> ["Must have values for keys: msg type"]
+
+var withVersion = {version: "123"};
+console.log("Contains? " + _.has(withVersion, "version"));
+
+var base = [0,1];
+var withPairs = [[2,3],[4,5],[6,7]];
+console.log(cat(base, _.flatten(withPairs)));
+//console.log(_.flatten(base, withPairs));
+
+var entryCount = 4;
+var entries = _.range(entryCount).map(function () {
+  return [1, 1];
+});
+console.log(entries);
+var asMap = entries.map(function (entry) {
+  return {key: entry[0], value: entry[1]};
+});
+console.log(asMap);
+
+var pairs = [{key: 'key2', value: 'value2'}, {key: 'key1', value: 'value2'}];
+console.log(_.sortBy(pairs, 'key'));

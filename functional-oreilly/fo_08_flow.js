@@ -566,15 +566,43 @@ console.log(stackAction([]));
 //=> [[1], [2, 1], 2]
 
 
-pipeline([]
+var result = pipeline([]
     , stackAction
     , _.chain) // take stack actions and execute one at the time
-  .each(function(elem) {
-    // log each step
-    console.log(elem)
-   });
+    .each(function (elem) {
+            // log each step
+            console.log(elem)
+          });
+console.log("Result: " + (result instanceof String));
 // (console) [[1],      // the stack after push(1)
 // (console)  [2, 1],   // the stack after push(2)
 // (console)  2]        // the result of pop([2, 1])
 
 
+// More pipelining...
+var entryCount = 4;
+var entries = _.range(entryCount).map(function () {
+  return [1, 1];
+});
+console.log(entries);
+var asMap = entries.map(function (entry) {
+  return {key: entry[0], value: entry[1]};
+});
+console.log(asMap);
+
+var r0 = pipeline(
+  _.range(entryCount)
+  , curry2(_.map)(function(elem) { return [1, 1]; })
+  , curry2(_.map)(function(elem) { return {key: elem[0], value: elem[1]}; })
+);
+console.log(r0);
+
+var ranged = _.range(entryCount);
+var r1 = _.map(ranged, function(elem) {
+  return [1,1];
+})
+console.log(r1);
+var r2 = curry2(_.map)(function(elem) {
+  return [1,1];
+})(ranged);
+console.log(r2);

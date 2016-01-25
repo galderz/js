@@ -401,3 +401,15 @@ console.log(restrict(
       return book.edition > 1;
     }));
 //=> [{title: "SICP", isbn: "0262510871", edition: 2},]
+
+var myArray = [1,2,3];
+console.log(_.reduce(myArray, function(a, b) { return a+b }));
+var myArray = [1,2,3];
+console.log(_.isArray([1,2,3]));
+
+var x = 1
+console.log(_.object([x], [2]));
+
+var myarray = [1];
+console.log(myarray[0]);
+console.log(_.last(myarray));
